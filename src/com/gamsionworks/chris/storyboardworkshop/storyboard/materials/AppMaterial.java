@@ -1,6 +1,7 @@
 package com.gamsionworks.chris.storyboardworkshop.storyboard.materials;
 
 import java.awt.Image;
+import java.util.Map;
 
 import com.gamsionworks.chris.storyboardworkshop.gui.StoryBoardWindow;
 import com.gamsionworks.chris.storyboardworkshop.storyboard.StoryBoard;
@@ -89,5 +90,13 @@ public interface AppMaterial {
 	 * @param sb
 	 */
 	public void edit(StoryBoardWindow sbw, StoryBoard sb);
+	
+	/**
+	 * Returns list of IDs this material is associated to.
+	 * Returns an empty map if no associations or type does not have associations.
+	 * Never null.
+	 * @return
+	 */
+	public Map<String, String> getAssociations();
 	
 }

@@ -1,13 +1,17 @@
 package com.gamsionworks.chris.storyboardworkshop.storyboard.materials;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
@@ -20,6 +24,7 @@ import javax.swing.SpringLayout;
 
 import com.gamsionworks.chris.storyboardworkshop.gui.FileSelecter;
 import com.gamsionworks.chris.storyboardworkshop.gui.FileSelecter.FilePanel;
+import com.gamsionworks.chris.storyboardworkshop.gui.JImageComponent;
 import com.gamsionworks.chris.storyboardworkshop.gui.StoryBoardWindow;
 import com.gamsionworks.chris.storyboardworkshop.storyboard.StoryBoard;
 import com.gamsionworks.chris.storyboardworkshop.utility.IDFactory;
@@ -91,11 +96,26 @@ public class Point implements AppMaterial {
 	}
 
 	@Override
-	public void edit(StoryBoardWindow sbw, StoryBoard sb) {
-		new Menu(sbw, sb);
+	public Map<String, String> getAssociations() {
+		return new HashMap<String, String>();
 	}
 
-	public class Menu extends JFrame {
+	@Override
+	public void edit(StoryBoardWindow sbw, StoryBoard sb) {
+		new PointMenu(sbw, sb);
+	}
+
+	protected void sortImages() {
+		this.imgs.forEach((i) -> {
+			if (this.thumbnail == i && imgs.indexOf(i) != 0) {
+				imgs.remove(i);
+				imgs.add(0, thumbnail);
+			}
+
+		});
+	}
+//TODO: Fix image adding so that it properly cancels
+	public class PointMenu extends JFrame {
 		protected static final long serialVersionUID = 1L;
 		protected Toolkit toolkit = Toolkit.getDefaultToolkit();
 		SpringLayout layout = new SpringLayout();
@@ -103,19 +123,77 @@ public class Point implements AppMaterial {
 		JTextField id = new JTextField(30);
 		JTextArea description = new JTextArea(20, 30);
 
+		List<Image> previewedImgs = new ArrayList<Image>();
 		JButton save = new JButton("Save");
 		JButton cancel = new JButton("Cancel");
 		JButton attachImg = new JButton("Attach an Image");
+		JLabel imgsLabel = new JLabel("Images:");
+		JImageComponent jic = new JImageComponent(null);
 		StoryBoardWindow sbw;
 		Point p;
 
+		private void loadJics() {
+			for (Component c : this.getContentPane().getComponents()) {
+				if(c instanceof JImageComponent) {
+					System.out.println("Removing component");
+					this.remove(c);
+					this.validate();
+				}
+			}
+			jic = new JImageComponent(null);
+			System.out.println(Point.this.imgs.size());
+			if (Point.this.imgs.size() == 0) {
+				BufferedImage bi = null;
+				try {
+					bi = ImageIO.read(this.getClass().getResourceAsStream("../../resources/Empty_Image.png"));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				jic.setImage(bi);
+				this.add(jic);
+				layout.putConstraint(SpringLayout.WEST, jic, 5, SpringLayout.EAST, imgsLabel);
+				layout.putConstraint(SpringLayout.NORTH, jic, 0, SpringLayout.VERTICAL_CENTER, imgsLabel);
+				layout.putConstraint(SpringLayout.EAST, jic, 100, SpringLayout.WEST, jic);
+				layout.putConstraint(SpringLayout.SOUTH, jic, 100, SpringLayout.NORTH, jic);
+			}
+			JImageComponent lastC = null;
+			if (Point.this.getThumbnail() != null) {
+				System.out.println("Running jic");
+				jic.setImage(Point.this.getThumbnail());
+				this.add(jic);
+				layout.putConstraint(SpringLayout.WEST, jic, 5, SpringLayout.EAST, imgsLabel);
+				layout.putConstraint(SpringLayout.NORTH, jic, 0, SpringLayout.VERTICAL_CENTER, imgsLabel);
+				layout.putConstraint(SpringLayout.EAST, jic, 100, SpringLayout.WEST, jic);
+				layout.putConstraint(SpringLayout.SOUTH, jic, 100, SpringLayout.NORTH, jic);
+				lastC = jic;
+			}
+			for (Image i : Point.this.imgs) {
+				if (!i.equals(jic.getImage())) {
+					JImageComponent cur = new JImageComponent(i);
+					this.add(cur);
+					layout.putConstraint(SpringLayout.WEST, cur, 5, SpringLayout.EAST, lastC);
+					layout.putConstraint(SpringLayout.NORTH, cur, 0, SpringLayout.NORTH, lastC);
+					layout.putConstraint(SpringLayout.EAST, cur, 100, SpringLayout.WEST, cur);
+					layout.putConstraint(SpringLayout.SOUTH, cur, 100, SpringLayout.NORTH, cur);
+					lastC = cur;
+				}
+			}
+
+			// jic
+
+			this.validate();
+		}
+
 		private void setup() {
-			this.setPreferredSize(new Dimension(toolkit.getScreenSize().width / 2, toolkit.getScreenSize().height / 2));
+			previewedImgs.clear();
+			previewedImgs.addAll(imgs);
+			this.setPreferredSize(
+					new Dimension(toolkit.getScreenSize().width / 2, (int) (toolkit.getScreenSize().height / 1.25)));
 			this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			this.setResizable(true);
 			this.pack();
 			this.setLocationRelativeTo(null);
-			this.setMinimumSize(new Dimension(300, 220));
+			this.setMinimumSize(new Dimension(400, 400));
 
 			this.setLayout(layout);
 
@@ -136,6 +214,9 @@ public class Point implements AppMaterial {
 			description.setText(Point.this.description);
 			this.add(descriptionLabel);
 			this.add(scrolling);
+
+			this.add(imgsLabel);
+			loadJics();
 
 			this.add(save);
 			this.add(cancel);
@@ -162,7 +243,11 @@ public class Point implements AppMaterial {
 			layout.putConstraint(SpringLayout.WEST, scrolling, 5, SpringLayout.EAST, descriptionLabel);
 			layout.putConstraint(SpringLayout.NORTH, scrolling, 5, SpringLayout.NORTH, descriptionLabel);
 			layout.putConstraint(SpringLayout.EAST, scrolling, -5, SpringLayout.EAST, this.getContentPane());
-			layout.putConstraint(SpringLayout.SOUTH, scrolling, -20, SpringLayout.NORTH, save);
+			layout.putConstraint(SpringLayout.SOUTH, scrolling, -150, SpringLayout.NORTH, save);
+
+			// imgsLabel
+			layout.putConstraint(SpringLayout.WEST, imgsLabel, 5, SpringLayout.WEST, this.getContentPane());
+			layout.putConstraint(SpringLayout.NORTH, imgsLabel, 5, SpringLayout.SOUTH, scrolling);
 
 			// create
 			layout.putConstraint(SpringLayout.WEST, save, 15, SpringLayout.WEST, this.getContentPane());
@@ -182,7 +267,7 @@ public class Point implements AppMaterial {
 			this.setVisible(true);
 		}
 
-		public Menu(StoryBoardWindow sbw, StoryBoard sb) {
+		public PointMenu(StoryBoardWindow sbw, StoryBoard sb) {
 			super("Point Edit...");
 			this.sbw = sbw;
 			this.setup();
@@ -213,7 +298,7 @@ public class Point implements AppMaterial {
 			attachImg.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					new FileSelecter(String.format("%s's Image Select...", Menu.this.name.getText().trim()),
+					new FileSelecter(String.format("%s's Image Select...", PointMenu.this.name.getText().trim()),
 							new ActionListener() {
 								@Override
 								public void actionPerformed(ActionEvent arg0) {
@@ -224,6 +309,8 @@ public class Point implements AppMaterial {
 											try {
 												Image i = ImageIO.read(fp.getSelectedFile());
 												Point.this.attachImg(i);
+												loadJics();
+
 											} catch (IOException e) {
 												e.printStackTrace();
 											}

@@ -2,7 +2,9 @@ package com.gamsionworks.chris.storyboardworkshop.storyboard.materials;
 
 import java.awt.Image;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.gamsionworks.chris.storyboardworkshop.gui.StoryBoardWindow;
 import com.gamsionworks.chris.storyboardworkshop.storyboard.StoryBoard;
@@ -77,6 +79,13 @@ public class Segment implements AppMaterial {
 	@Override
 	public String toString() {
 		return this.getTitle();
+	}
+	@Override
+	public Map<String, String> getAssociations(){
+		Map<String, String> assoc = new HashMap<String, String>();
+		assoc.put("start", start.getUID());
+		assoc.put("end", end.getUID());
+		return assoc;
 	}
 
 	@Override

@@ -173,7 +173,7 @@ public class StoryBoardArcCreation extends JFrame {
 					JOptionPane.showMessageDialog(sbw, "Please select different starting/ending points.");
 					return;
 				}
-				sb.add(new Arc(name.getText(), description.getText(), ((Segment)point1.getSelectedItem()).getStart(), ((Segment)point2.getSelectedItem()).getEnd(), null, null));
+//				sb.add(new Arc(name.getText(), description.getText(), ((Segment)point1.getSelectedItem()).getStart(), ((Segment)point2.getSelectedItem()).getEnd(), null, null));
 				dispose();
 			}
 
