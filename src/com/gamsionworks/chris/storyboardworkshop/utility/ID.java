@@ -5,9 +5,13 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * @author Chris
+ *	Immutable class containing various combinations of Strings.
+ */
 public class ID {
 	private int partSize = 4;
-	private List<IDPart> parts = new LinkedList<IDPart>();
+	private final List<IDPart> parts = new LinkedList<IDPart>();
 	public class IDPart {
 		String part;
 		public IDPart(String part) {
@@ -37,6 +41,11 @@ public class ID {
 			parts.add(new IDPart(id.substring(i, end)));
 		}
 	}
+	
+	public List<IDPart> getParts(){
+		return new LinkedList<IDPart>(this.parts);
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();

@@ -8,6 +8,10 @@ import java.util.logging.Logger;
 import com.gamsionworks.chris.storyboardworkshop.storyboard.materials.AppMaterial;
 import com.gamsionworks.chris.storyboardworkshop.utility.ID.IDPart;
 
+/**
+ * @author Chris
+ * Represents all known IDs as a tree structure for searching purposes.
+ */
 public class IDTree {
 	IDTree parent = null;
 	Set<IDTree> children = new HashSet<IDTree>();
@@ -106,28 +110,57 @@ public class IDTree {
 		return true;
 	}
 
+	/**
+	 * Return whether this node is a leaf.
+	 * @return
+	 */
 	public boolean isLeaf() {
 		if (children.size() == 0)
 			return true;
 		return false;
 	}
 
+	/**
+	 * Return if this node is the top of a tree.
+	 * @return
+	 */
 	public boolean isHead() {
 		return this.parent == null;
 	}
 
+	/**
+	 * Returns all of the children as a set.
+	 * @return
+	 */
 	public Set<IDTree> getChildren() {
 		return this.children;
 	}
 
+	/**
+	 * Returns value of this node.
+	 * @return
+	 */
 	public IDPart getValue() {
 		return value;
 	}
 
+	/**
+	 * Returns the child matching this IDPart.
+	 * (Assumes not by Mem)
+	 * @param part
+	 * @return
+	 */
 	public IDTree getChild(IDPart part) {
 		return getChild(part, false);
 	}
 
+	/**
+	 * Returns the child matching this IDPart.
+	 * If byMem is true, will use == operator for search. If false, will use .equals to search.
+	 * @param part
+	 * @param byMem
+	 * @return
+	 */
 	public IDTree getChild(IDPart part, boolean byMem) {
 		for (IDTree t : children) {
 			if (byMem ? t.getValue().equals(part) : t.getValue() == part) {
@@ -138,6 +171,7 @@ public class IDTree {
 				String.format("Child not found in %s", this.toString()));
 		return null;
 	}
+	
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder(this.value.part);
