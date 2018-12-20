@@ -9,6 +9,8 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -114,7 +116,8 @@ public class Point implements AppMaterial {
 
 		});
 	}
-//TODO: Fix image adding so that it properly cancels
+
+	// TODO: Fix image adding so that it properly cancels
 	public class PointMenu extends JFrame {
 		protected static final long serialVersionUID = 1L;
 		protected Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -134,14 +137,12 @@ public class Point implements AppMaterial {
 
 		private void loadJics() {
 			for (Component c : this.getContentPane().getComponents()) {
-				if(c instanceof JImageComponent) {
-					System.out.println("Removing component");
+				if (c instanceof JImageComponent) {
 					this.remove(c);
 					this.validate();
 				}
 			}
 			jic = new JImageComponent(null);
-			System.out.println(Point.this.imgs.size());
 			if (Point.this.imgs.size() == 0) {
 				BufferedImage bi = null;
 				try {
@@ -158,7 +159,6 @@ public class Point implements AppMaterial {
 			}
 			JImageComponent lastC = null;
 			if (Point.this.getThumbnail() != null) {
-				System.out.println("Running jic");
 				jic.setImage(Point.this.getThumbnail());
 				this.add(jic);
 				layout.putConstraint(SpringLayout.WEST, jic, 5, SpringLayout.EAST, imgsLabel);
@@ -276,6 +276,9 @@ public class Point implements AppMaterial {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
+					Collection<String> ids = Arrays.asList(sbw.getStoryBoard().getComponentIDs());
+					
+//					if(ids.contains(o))
 					Point.this.ID = id.getText();
 					Point.this.name = name.getText();
 					Point.this.description = description.getText();

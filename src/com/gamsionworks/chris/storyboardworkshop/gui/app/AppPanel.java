@@ -72,6 +72,7 @@ public class AppPanel extends JPanel {
 
 		@Override
 		public void mouseDragged(MouseEvent e) {
+			
 			Component component = e.getComponent();
 			location = component.getLocation(location);
 			int x = location.x - pressed.getX() + e.getX();

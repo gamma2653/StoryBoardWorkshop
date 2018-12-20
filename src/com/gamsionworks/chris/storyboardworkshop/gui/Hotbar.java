@@ -26,7 +26,7 @@ public class Hotbar extends JMenuBar {
 			}
 		});
 		menu1.add(i1);
-		
+
 		JMenuItem i2 = new JMenuItem("Segment");
 		i2.addActionListener(new ActionListener() {
 			@Override

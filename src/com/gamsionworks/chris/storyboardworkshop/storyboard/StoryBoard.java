@@ -3,6 +3,7 @@ package com.gamsionworks.chris.storyboardworkshop.storyboard;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -185,5 +186,16 @@ public class StoryBoard {
 			}
 		}
 		return count;
+	}
+	public String[] getComponentIDs() {
+		String[] ret = new String[items.values().size()];
+		Collection<AppMaterial> ams = items.values();
+		Iterator<AppMaterial> it = ams.iterator();
+		int counter = 0;
+		while(it.hasNext()) {
+			ret[counter] = it.next().getUID();
+			counter++;
+		}
+		return ret;
 	}
 }
