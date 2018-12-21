@@ -1,32 +1,42 @@
 package com.gamsionworks.chris.storyboardworkshop.utility;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Random;
 
 public class IDFactory {
-	public static long count = 0;
-	private static List<Long> forbiddenNumbers = new ArrayList<Long>();
-	public static long getUID(){
-		while(forbiddenNumbers.contains(count)){
-			++count;
-		}
-		return count++;
+	// Didn't feel like using a real encoding: this was faster
+	static final char[] chars = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q',
+			'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+	private static IDTree existingIDs = new IDTree();
+	static Random r = new Random();
+
+	public static String getUID(int length, int pieceSize) {
+		StringBuilder idStr;
+		ID id;
+		do {
+			idStr = new StringBuilder();
+			for (int i = 0; i < length; i++) {
+				idStr.append(chars[r.nextInt(chars.length)]);
+			}
+			id = new ID(idStr.toString());
+		} while (existingIDs.hasID(id));
+		existingIDs.add(id);
+		return id.toString();
 	}
-	
-	public static void forbidNumber(long numb){
-		forbiddenNumbers.add(numb);
+
+	public static String getUID(int length) {
+		return getUID(length, GUtilities.idSize);
 	}
-//	
-//	
-//	public static void main(String[] args){
-//		IDFactory.forbidNumber(459);
-//		IDFactory.forbidNumber(1337);
-//		IDFactory.forbidNumber(42);
-//		IDFactory.forbidNumber(8001);
-//		IDFactory.forbidNumber(101010);
-//		for(int i=0;i<100;i++){
-//			System.out.println(IDFactory.getUID());
-//		}
-//	}
-	
+
+	public static String getUID() {
+		return getUID(GUtilities.stdIdSize);
+	}
+
+	public static void addID(ID id) {
+		existingIDs.add(id);
+	}
+
+	public static void main(String[] args) {
+		System.out.println(chars.length);
+	}
+
 }
