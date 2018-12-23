@@ -8,10 +8,11 @@ import java.util.Map;
 
 import com.gamsionworks.chris.storyboardworkshop.gui.StoryBoardWindow;
 import com.gamsionworks.chris.storyboardworkshop.storyboard.StoryBoard;
+import com.gamsionworks.chris.storyboardworkshop.utility.ID;
 import com.gamsionworks.chris.storyboardworkshop.utility.IDFactory;
 
 public class Segment implements AppMaterial {
-	protected String ID;
+	protected ID id;
 	protected String name;
 	protected String description;
 	protected Point start, end;
@@ -62,13 +63,13 @@ public class Segment implements AppMaterial {
 	}
 
 	@Override
-	public String getUID() {
-		return ID;
+	public ID getUID() {
+		return this.id;
 	}
 
 	@Override
 	public void setUID(String UID) {
-		this.ID = UID;
+		this.id = new ID(UID);
 	}
 
 	@Override
@@ -81,8 +82,8 @@ public class Segment implements AppMaterial {
 		return this.getTitle();
 	}
 	@Override
-	public Map<String, String> getAssociations(){
-		Map<String, String> assoc = new HashMap<String, String>();
+	public Map<String, ID> getAssociations(){
+		Map<String, ID> assoc = new HashMap<String, ID>();
 		assoc.put("start", start.getUID());
 		assoc.put("end", end.getUID());
 		return assoc;
@@ -119,5 +120,12 @@ public class Segment implements AppMaterial {
 		for(Image i : img) {
 			imgs.remove(i);
 		}
+	}
+
+
+	@Override
+	public void setUID(ID id) {
+		this.id = id;
+		
 	}
 }

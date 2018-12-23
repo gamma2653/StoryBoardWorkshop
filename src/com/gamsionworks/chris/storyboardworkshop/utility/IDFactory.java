@@ -9,7 +9,7 @@ public class IDFactory {
 	private static IDTree existingIDs = new IDTree();
 	static Random r = new Random();
 
-	public static String getUID(int length, int pieceSize) {
+	public static ID getUID(int length, int pieceSize) {
 		StringBuilder idStr;
 		ID id;
 		do {
@@ -20,14 +20,14 @@ public class IDFactory {
 			id = new ID(idStr.toString());
 		} while (existingIDs.hasID(id));
 		existingIDs.add(id);
-		return id.toString();
+		return id;
 	}
 
-	public static String getUID(int length) {
+	public static ID getUID(int length) {
 		return getUID(length, GUtilities.idSize);
 	}
 
-	public static String getUID() {
+	public static ID getUID() {
 		return getUID(GUtilities.stdIdSize);
 	}
 

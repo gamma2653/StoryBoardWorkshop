@@ -104,6 +104,6 @@ public interface AppMaterial {
 	 * Never null.
 	 * @return
 	 */
-	public Map<String, String> getAssociations();
+	public Map<String, ID> getAssociations();
 	
 }

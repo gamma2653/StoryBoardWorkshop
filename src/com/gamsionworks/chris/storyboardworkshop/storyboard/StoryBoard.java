@@ -17,9 +17,10 @@ import com.gamsionworks.chris.storyboardworkshop.storyboard.materials.End;
 import com.gamsionworks.chris.storyboardworkshop.storyboard.materials.Point;
 import com.gamsionworks.chris.storyboardworkshop.storyboard.materials.Segment;
 import com.gamsionworks.chris.storyboardworkshop.storyboard.materials.Start;
+import com.gamsionworks.chris.storyboardworkshop.utility.ID;
 
 public class StoryBoard {
-	Map<String, AppMaterial> items = new HashMap<String, AppMaterial>();
+	Map<ID, AppMaterial> items = new HashMap<ID, AppMaterial>();
 	public AppMaterial selected = null;
 	public Start start;
 	public End end;
@@ -187,8 +188,8 @@ public class StoryBoard {
 		}
 		return count;
 	}
-	public String[] getComponentIDs() {
-		String[] ret = new String[items.values().size()];
+	public ID[] getComponentIDs() {
+		ID[] ret = new ID[items.values().size()];
 		Collection<AppMaterial> ams = items.values();
 		Iterator<AppMaterial> it = ams.iterator();
 		int counter = 0;

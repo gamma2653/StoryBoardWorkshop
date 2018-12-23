@@ -12,15 +12,15 @@ import com.gamsionworks.chris.storyboardworkshop.utility.ID;
 import com.gamsionworks.chris.storyboardworkshop.utility.IDFactory;
 
 public class Arc implements AppMaterial {
-	protected String ID;
+	protected ID id;
 	protected String name;
 	protected String description;
 	protected Point start, end;
 	protected List<Image> imgs = new ArrayList<Image>();
 	private List<Segment> segments;
 
-	public Arc(String name, String description, List<Segment> segments, String uid) {
-		this.setUID(uid == null ? String.valueOf(IDFactory.getUID()) : uid);
+	public Arc(String name, String description, List<Segment> segments, ID uid) {
+		this.setUID(uid == null ? IDFactory.getUID() : uid);
 		segments = new ArrayList<Segment>();
 		this.segments.addAll(segments);
 		if (name == null) {
@@ -41,8 +41,8 @@ public class Arc implements AppMaterial {
 	}
 
 	@Override
-	public Map<String, String> getAssociations() {
-		Map<String, String> assoc = new HashMap<String, String>();
+	public Map<String, ID> getAssociations() {
+		Map<String, ID> assoc = new HashMap<String, ID>();
 		segments.forEach((i) -> {
 
 		});
@@ -136,10 +136,10 @@ public class Arc implements AppMaterial {
 		// TODO Auto-generated method stub
 
 	}
-
+	//TODO: bfs
 	public static Segment getEarliestSegment(List<Segment> segs) {
 
-		Map<String, Boolean> count = new HashMap<String, Boolean>();
+		Map<ID, Boolean> count = new HashMap<ID, Boolean>();
 		Segment earlySeg = segs.get(0);
 		for (Segment s : segs) {
 			if (count.containsKey(s.getStart().getUID())) {

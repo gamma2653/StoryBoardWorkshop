@@ -1,5 +1,6 @@
 package com.gamsionworks.chris.storyboardworkshop.utility;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
@@ -10,7 +11,7 @@ import java.util.logging.Logger;
  */
 public class ID {
 	private int partSize = 4;
-	private final List<IDPart> parts = new LinkedList<IDPart>();
+	private final List<IDPart> parts = new ArrayList<IDPart>();
 	private char fillerChar = '_';
 
 	public class IDPart {

@@ -42,7 +42,7 @@ public class Point implements AppMaterial {
 	public Point(String name, String description, ID uid) {
 		this.name = name == null ? String.format("Point# %d", this.getUID()) : name;
 		this.description = description == null ? String.format("Point# %d", this.getUID()) : description;
-		this.setUID((uid == null || uid.equals("")) ? String.valueOf(IDFactory.getUID()) : uid);
+		this.setUID((uid == null || uid.equals("")) ? IDFactory.getUID() : uid);
 	}
 
 	public Point(String name, String description, ID uid, List<Image> capturedImgs) {
@@ -104,8 +104,8 @@ public class Point implements AppMaterial {
 	}
 
 	@Override
-	public Map<String, String> getAssociations() {
-		return new HashMap<String, String>();
+	public Map<String, ID> getAssociations() {
+		return new HashMap<String, ID>();
 	}
 
 	@Override
@@ -282,9 +282,10 @@ public class Point implements AppMaterial {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					Collection<String> ids = Arrays.asList(sbw.getStoryBoard().getComponentIDs());
+					Collection<ID> ids = Arrays.asList(sbw.getStoryBoard().getComponentIDs());
 
 					// if(ids.contains(o))
+//					if(Point.this.ID)
 					Point.this.ID = new ID(id.getText());
 					Point.this.name = name.getText();
 					Point.this.description = description.getText();
@@ -426,5 +427,11 @@ public class Point implements AppMaterial {
 			imgs.add(i);
 		}
 		thumbnail = i;
+	}
+
+	@Override
+	public void setUID(String UID) {
+		// TODO Auto-generated method stub
+		
 	}
 }

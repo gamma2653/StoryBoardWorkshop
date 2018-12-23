@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.gamsionworks.chris.storyboardworkshop.storyboard.StoryBoard;
 import com.gamsionworks.chris.storyboardworkshop.storyboard.materials.AppMaterial;
+import com.gamsionworks.chris.storyboardworkshop.utility.ID;
 
 public class DatabaseManager {
 	Connection conn;
@@ -31,7 +32,7 @@ public class DatabaseManager {
 	public void save(StoryBoard sb) {
 		SaveData sd = new SaveData();
 		for (AppMaterial am : sb.getAllItems()) {
-			String id = am.getUID();
+			ID id = am.getUID();
 			String type = am.getTypeName();
 			String title = am.getTitle();
 			String desc = am.getDescription();
@@ -40,12 +41,12 @@ public class DatabaseManager {
 	}
 
 	class SaveData {
-		List<String> ids = new ArrayList<String>();
+		List<ID> ids = new ArrayList<ID>();
 		List<String> types = new ArrayList<String>();
 		List<String> titles = new ArrayList<String>();
 		List<String> descs = new ArrayList<String>();
 		List<List<String>> associations = new ArrayList<List<String>>();
-		SaveData(List<String> ids, List<String> types, List<String> titles, List<String> descs,
+		SaveData(List<ID> ids, List<String> types, List<String> titles, List<String> descs,
 				List<List<String>> associations) {
 			this.ids = ids;
 			this.types = types;
@@ -55,7 +56,7 @@ public class DatabaseManager {
 		}
 		SaveData() {
 		}
-		void add(String id, String type, String title, String desc, List<String> associations) {
+		void add(ID id, String type, String title, String desc, List<String> associations) {
 			ids.add(id);
 			types.add(type);
 			titles.add(title);
