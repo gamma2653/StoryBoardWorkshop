@@ -34,7 +34,17 @@ public class IDFactory {
 	public static void addID(ID id) {
 		existingIDs.add(id);
 	}
-
+	public static void removeID(ID id){
+		existingIDs.remove(id);
+	}
+	
+	public static boolean compareIDs(String id1, String id2){
+		return id1.replaceAll("-", "").equals(id2.replaceAll("-", ""));
+	}
+	public static boolean compareIDs(ID id1, ID id2){
+		return id1.equals(id2);
+	}
+	
 	public static void main(String[] args) {
 		System.out.println(chars.length);
 	}

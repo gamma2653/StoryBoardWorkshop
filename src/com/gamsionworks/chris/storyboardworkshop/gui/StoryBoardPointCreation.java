@@ -25,6 +25,7 @@ import com.gamsionworks.chris.storyboardworkshop.storyboard.StoryBoard;
 import com.gamsionworks.chris.storyboardworkshop.storyboard.materials.End;
 import com.gamsionworks.chris.storyboardworkshop.storyboard.materials.Point;
 import com.gamsionworks.chris.storyboardworkshop.storyboard.materials.Start;
+import com.gamsionworks.chris.storyboardworkshop.utility.IDFactory;
 
 public class StoryBoardPointCreation extends JFrame {
 
@@ -58,12 +59,12 @@ public class StoryBoardPointCreation extends JFrame {
 		JLabel idLabel = new JLabel("ID: ");
 		this.add(idLabel);
 		this.add(id);
-		id.setText(String.valueOf(this.sbw.sb.getAllItems().size()+1));
+		id.setText(IDFactory.getUID());
 
 		JLabel nameLabel = new JLabel("Name: ");
 		this.add(nameLabel);
 		this.add(name);
-		name.setText(String.format("Point %d", this.sbw.sb.getComponentCount("Point")+1));
+		name.setText(String.format("Point %d", this.sbw.sb.getComponentCount("Point") + 1));
 
 		JLabel descriptionLabel = new JLabel("Description: ");
 		this.add(descriptionLabel);
@@ -182,27 +183,28 @@ public class StoryBoardPointCreation extends JFrame {
 
 	}
 
-//	public StoryBoardPointCreation(StoryBoardWindow sbw, StoryBoard sb, boolean flag) {
-//		super(flag ? "Create Start..." : "Create End...");
-//		this.setup();
-//		create.addActionListener(new ActionListener() {
-//
-//			@Override
-//			public void actionPerformed(ActionEvent arg0) {
-//				if (flag) {
-//					sb.add(new Start(name.getText(), description.getText(), null));
-//					new StoryBoardPointCreation(sbw, sb, StoryBoardWindow.END);
-//					StoryBoardPointCreation.super.dispose();
-//					return;
-//
-//				} else {
-//					sb.add(new End(name.getText(), description.getText(), null));
-//				}
-//				dispose();
-//			}
-//
-//		});
-//	}
+	// public StoryBoardPointCreation(StoryBoardWindow sbw, StoryBoard sb,
+	// boolean flag) {
+	// super(flag ? "Create Start..." : "Create End...");
+	// this.setup();
+	// create.addActionListener(new ActionListener() {
+	//
+	// @Override
+	// public void actionPerformed(ActionEvent arg0) {
+	// if (flag) {
+	// sb.add(new Start(name.getText(), description.getText(), null));
+	// new StoryBoardPointCreation(sbw, sb, StoryBoardWindow.END);
+	// StoryBoardPointCreation.super.dispose();
+	// return;
+	//
+	// } else {
+	// sb.add(new End(name.getText(), description.getText(), null));
+	// }
+	// dispose();
+	// }
+	//
+	// });
+	// }
 
 	public Point toPoint() {
 		return new Point(name.getText(), description.getText(), null);

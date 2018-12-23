@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.gamsionworks.chris.storyboardworkshop.gui.StoryBoardWindow;
 import com.gamsionworks.chris.storyboardworkshop.storyboard.StoryBoard;
+import com.gamsionworks.chris.storyboardworkshop.utility.ID;
 import com.gamsionworks.chris.storyboardworkshop.utility.IDFactory;
 
 public class Arc implements AppMaterial {
@@ -117,11 +118,6 @@ public class Arc implements AppMaterial {
 
 	}
 
-	@Override
-	public String getUID() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public void setUID(String UID) {
@@ -157,6 +153,18 @@ public class Arc implements AppMaterial {
 			System.err.println("ERROR TOO MANY BROS");
 
 		return earlySeg;
+	}
+
+	@Override
+	public ID getUID() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setUID(ID UID) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

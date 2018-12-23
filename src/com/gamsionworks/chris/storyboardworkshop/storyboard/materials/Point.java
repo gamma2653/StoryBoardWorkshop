@@ -29,22 +29,23 @@ import com.gamsionworks.chris.storyboardworkshop.gui.FileSelecter.FilePanel;
 import com.gamsionworks.chris.storyboardworkshop.gui.JImageComponent;
 import com.gamsionworks.chris.storyboardworkshop.gui.StoryBoardWindow;
 import com.gamsionworks.chris.storyboardworkshop.storyboard.StoryBoard;
+import com.gamsionworks.chris.storyboardworkshop.utility.ID;
 import com.gamsionworks.chris.storyboardworkshop.utility.IDFactory;
 
 public class Point implements AppMaterial {
-	protected String ID;
+	protected ID ID;
 	protected String name;
 	protected String description;
 	protected List<Image> imgs = new ArrayList<Image>();
 	protected Image thumbnail;
 
-	public Point(String name, String description, String uid) {
+	public Point(String name, String description, ID uid) {
 		this.name = name == null ? String.format("Point# %d", this.getUID()) : name;
 		this.description = description == null ? String.format("Point# %d", this.getUID()) : description;
-		this.setUID(uid == null ? String.valueOf(IDFactory.getUID()) : uid);
+		this.setUID((uid == null || uid.equals("")) ? String.valueOf(IDFactory.getUID()) : uid);
 	}
 
-	public Point(String name, String description, String uid, List<Image> capturedImgs) {
+	public Point(String name, String description, ID uid, List<Image> capturedImgs) {
 		this(name, description, uid);
 		imgs = capturedImgs;
 		if (!imgs.isEmpty()) {
@@ -78,13 +79,18 @@ public class Point implements AppMaterial {
 	}
 
 	@Override
-	public String getUID() {
+	public ID getUID() {
 		return ID;
 	}
 
 	@Override
-	public void setUID(String UID) {
-		this.ID = UID;
+	public void setUID(ID UID) {
+		if (!this.ID.equals(UID)) {
+			IDFactory.removeID(this.ID);
+			IDFactory.addID(UID);
+			this.ID = UID;
+
+		}
 	}
 
 	@Override
@@ -201,7 +207,7 @@ public class Point implements AppMaterial {
 			JScrollPane scrolling = new JScrollPane(description, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 					JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 			JLabel idLabel = new JLabel("ID: ");
-			id.setText(Point.this.ID);
+			id.setText(Point.this.ID.toString());
 			this.add(idLabel);
 			this.add(id);
 
@@ -277,12 +283,11 @@ public class Point implements AppMaterial {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					Collection<String> ids = Arrays.asList(sbw.getStoryBoard().getComponentIDs());
-					
-//					if(ids.contains(o))
-					Point.this.ID = id.getText();
+
+					// if(ids.contains(o))
+					Point.this.ID = new ID(id.getText());
 					Point.this.name = name.getText();
 					Point.this.description = description.getText();
-					sb.add(new Point(name.getText(), description.getText(), null));
 					dispose();
 					System.out.printf("%s and %s\n\n", sb.getSegments(Point.this).getStartPoints(),
 							sb.getSegments(Point.this).getEndPoints());

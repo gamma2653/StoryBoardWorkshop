@@ -181,7 +181,7 @@ public class IDTree {
 				}
 			}
 			Logger.getLogger(GUtilities.loggerName).log(Level.INFO,
-					String.format("Child not found in %s", this.toString()));
+					String.format("Child (%s) not found in %s", part.toString(), this.toString()));
 			return null;
 		}
 
@@ -197,7 +197,8 @@ public class IDTree {
 		}
 
 		/**
-		 * Adds the List of IDParts to the tree, expanding it's branches when necessary.
+		 * Adds the List of IDParts to the tree, expanding it's branches when
+		 * necessary.
 		 * 
 		 * @param id
 		 */
@@ -210,7 +211,8 @@ public class IDTree {
 			IDTreeNode t = getChild(part);
 			t = t == null ? new IDTreeNode(this, part) : t;
 			t.addID(id);
-			this.children.add(t);// For cool effect, add all the trees to the set AFTER all have been constructed
+			this.children.add(t);// For cool effect, add all the trees to the
+									// set AFTER all have been constructed
 			// if (this.isHead()) {
 			// IDTreeNode t = new IDTreeNode(this, part);
 			// } else {
@@ -331,15 +333,16 @@ public class IDTree {
 
 	public static void main(String[] args) {
 		int size = 4;
-		ID id = new ID("exampleid2626", size);
-		ID id2 = new ID("exampleid5353", size);
+		ID id = new ID("exampleid2626", 1);
+		ID id2 = new ID("exampleid5353", 1);
 		IDTree t = new IDTree(id);
 		System.out.println(t);
 		t.add(id2);
 		System.out.println(t);
-		ID rid = new ID("exampleid2626", size);
+		ID rid = new ID("exampleid2626", 1);
 		t.remove(rid);
 		System.out.println(t);
+		System.out.println(t.hasID(new ID("exampleid5353", 1)));
 
 		// IDTree t = initIDTree(id);
 		// t.addID(id2);
@@ -349,3 +352,6 @@ public class IDTree {
 	}
 
 }
+// id1
+// id2
+// id3

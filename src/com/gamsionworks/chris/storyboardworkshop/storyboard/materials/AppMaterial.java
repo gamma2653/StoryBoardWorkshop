@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.gamsionworks.chris.storyboardworkshop.gui.StoryBoardWindow;
 import com.gamsionworks.chris.storyboardworkshop.storyboard.StoryBoard;
+import com.gamsionworks.chris.storyboardworkshop.utility.ID;
 
 public interface AppMaterial {
 	/**
@@ -71,13 +72,19 @@ public interface AppMaterial {
 	 * ID of part. Unique.
 	 * @return
 	 */
-	public String getUID();
+	public ID getUID();
 	
 	/**
 	 * Sets the ID.
 	 * @param UID
 	 */
 	public void setUID(String UID);
+
+	/**
+	 * Sets the ID.
+	 * @param UID
+	 */
+	public void setUID(ID UID);
 	
 	/**
 	 * Auto-generates the ID.
