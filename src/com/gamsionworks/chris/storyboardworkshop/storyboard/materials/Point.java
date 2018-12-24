@@ -33,7 +33,7 @@ import com.gamsionworks.chris.storyboardworkshop.utility.ID;
 import com.gamsionworks.chris.storyboardworkshop.utility.IDFactory;
 
 public class Point implements AppMaterial {
-	protected ID ID;
+	protected ID id;
 	protected String name;
 	protected String description;
 	protected List<Image> imgs = new ArrayList<Image>();
@@ -51,6 +51,10 @@ public class Point implements AppMaterial {
 		if (!imgs.isEmpty()) {
 			thumbnail = imgs.get(0);
 		}
+	}
+
+	public Point() {
+		this(null, null, null);
 	}
 
 	@Override
@@ -80,16 +84,15 @@ public class Point implements AppMaterial {
 
 	@Override
 	public ID getUID() {
-		return ID;
+		return id;
 	}
 
 	@Override
 	public void setUID(ID UID) {
-		if (!this.ID.equals(UID)) {
-			IDFactory.removeID(this.ID);
+		if (!UID.equals(this.id)) {
+			IDFactory.removeID(this.id);
 			IDFactory.addID(UID);
-			this.ID = UID;
-
+			this.id = UID;
 		}
 	}
 
@@ -100,7 +103,7 @@ public class Point implements AppMaterial {
 
 	@Override
 	public String toString() {
-		return this.getTitle();
+		return "Point: \"" + this.getTitle() + "\"";
 	}
 
 	@Override
@@ -129,7 +132,7 @@ public class Point implements AppMaterial {
 		protected Toolkit toolkit = Toolkit.getDefaultToolkit();
 		SpringLayout layout = new SpringLayout();
 		JTextField name = new JTextField(30);
-		JTextField id = new JTextField(30);
+		JTextField idField = new JTextField(30);
 		JTextArea description = new JTextArea(20, 30);
 
 		List<Image> previewedImgs = new ArrayList<Image>();
@@ -191,6 +194,7 @@ public class Point implements AppMaterial {
 		}
 
 		private void setup() {
+			System.out.println(IDFactory.getExistingIDs());
 			previewedImgs.clear();
 			previewedImgs.addAll(imgs);
 			this.setPreferredSize(
@@ -207,9 +211,10 @@ public class Point implements AppMaterial {
 			JScrollPane scrolling = new JScrollPane(description, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 					JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 			JLabel idLabel = new JLabel("ID: ");
-			id.setText(Point.this.ID.toString());
+			idField.setText(Point.this.id.toString());
+			System.out.println(id);
 			this.add(idLabel);
-			this.add(id);
+			this.add(idField);
 
 			JLabel nameLabel = new JLabel("Name: ");
 			name.setText(Point.this.name);
@@ -231,15 +236,15 @@ public class Point implements AppMaterial {
 			layout.putConstraint(SpringLayout.WEST, idLabel, 5, SpringLayout.WEST, this.getContentPane());
 			layout.putConstraint(SpringLayout.NORTH, idLabel, 5, SpringLayout.NORTH, this.getContentPane());
 			// id
-			layout.putConstraint(SpringLayout.WEST, id, 5, SpringLayout.EAST, idLabel);
-			layout.putConstraint(SpringLayout.NORTH, id, 0, SpringLayout.NORTH, idLabel);
-			layout.putConstraint(SpringLayout.EAST, id, 200, SpringLayout.WEST, this.getContentPane());
+			layout.putConstraint(SpringLayout.WEST, idField, 5, SpringLayout.EAST, idLabel);
+			layout.putConstraint(SpringLayout.NORTH, idField, 0, SpringLayout.NORTH, idLabel);
+			layout.putConstraint(SpringLayout.EAST, idField, 200, SpringLayout.WEST, this.getContentPane());
 			// name label
 			layout.putConstraint(SpringLayout.WEST, nameLabel, 5, SpringLayout.WEST, this.getContentPane());
 			layout.putConstraint(SpringLayout.NORTH, nameLabel, 5, SpringLayout.SOUTH, idLabel);
 			// name
 			layout.putConstraint(SpringLayout.WEST, name, 5, SpringLayout.EAST, nameLabel);
-			layout.putConstraint(SpringLayout.NORTH, name, 5, SpringLayout.SOUTH, id);
+			layout.putConstraint(SpringLayout.NORTH, name, 5, SpringLayout.SOUTH, idField);
 			layout.putConstraint(SpringLayout.EAST, name, -5, SpringLayout.EAST, this.getContentPane());
 
 			// description label
@@ -285,8 +290,8 @@ public class Point implements AppMaterial {
 					Collection<ID> ids = Arrays.asList(sbw.getStoryBoard().getComponentIDs());
 
 					// if(ids.contains(o))
-//					if(Point.this.ID)
-					Point.this.ID = new ID(id.getText());
+					// if(Point.this.ID)
+					Point.this.setUID(idField.getText());
 					Point.this.name = name.getText();
 					Point.this.description = description.getText();
 					dispose();
@@ -431,7 +436,11 @@ public class Point implements AppMaterial {
 
 	@Override
 	public void setUID(String UID) {
-		// TODO Auto-generated method stub
-		
+		if (!UID.equals(this.id.toString().toLowerCase().trim())) {
+			ID newID = new ID(UID);
+			IDFactory.addID(newID);
+			IDFactory.removeID(this.id);
+			this.id = newID;
+		}
 	}
 }

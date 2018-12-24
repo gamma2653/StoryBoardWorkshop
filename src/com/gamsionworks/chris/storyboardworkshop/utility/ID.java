@@ -22,8 +22,8 @@ public class ID {
 				Logger.getLogger(GUtilities.loggerName).log(Level.WARNING, "Part of id is greater than 5 characters!");
 			}
 			while (part.length() < partSize) {
-				//Filling with filler
-				part+=fillerChar;
+				// Filling with filler
+				part += fillerChar;
 			}
 			this.part = part.toLowerCase();
 		}
@@ -32,9 +32,23 @@ public class ID {
 		public String toString() {
 			return part;
 		}
+
+		@Override
+		public boolean equals(Object o) {
+			if (o instanceof IDPart) {
+				IDPart part = (IDPart) o;
+				return part.part.equals(this.part);
+			}
+			return false;
+		}
+		@Override
+		public int hashCode(){
+			return this.part.hashCode();
+		}
 	}
 
 	public ID(String id) {
+		id = id.trim().replaceAll("-", "");
 		for (int i = 0; i < id.length(); i += partSize) {
 			int end = i + partSize;
 			end = end > id.length() ? id.length() : end;
@@ -43,6 +57,7 @@ public class ID {
 	}
 
 	public ID(String id, int partSize) {
+		id = id.trim().replaceAll("-", "");
 		this.partSize = partSize;
 		for (int i = 0; i < id.length(); i += partSize) {
 			int end = i + partSize;

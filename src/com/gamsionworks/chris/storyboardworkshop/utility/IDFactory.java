@@ -2,6 +2,8 @@ package com.gamsionworks.chris.storyboardworkshop.utility;
 
 import java.util.Random;
 
+import com.gamsionworks.chris.storyboardworkshop.storyboard.materials.AppMaterial;
+
 public class IDFactory {
 	// Didn't feel like using a real encoding: this was faster
 	static final char[] chars = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q',
@@ -34,17 +36,33 @@ public class IDFactory {
 	public static void addID(ID id) {
 		existingIDs.add(id);
 	}
-	public static void removeID(ID id){
+
+	public static void removeID(ID id) {
+		if (id == null)
+			return;
 		existingIDs.remove(id);
 	}
-	
-	public static boolean compareIDs(String id1, String id2){
+
+	public static void add(AppMaterial mat) {
+		existingIDs.add(mat);
+	}
+
+	public static void remove(AppMaterial mat) {
+		existingIDs.remove(mat.getUID());
+	}
+
+	public static boolean compareIDs(String id1, String id2) {
 		return id1.replaceAll("-", "").equals(id2.replaceAll("-", ""));
 	}
-	public static boolean compareIDs(ID id1, ID id2){
+
+	public static boolean compareIDs(ID id1, ID id2) {
 		return id1.equals(id2);
 	}
-	
+
+	public static IDTree getExistingIDs() {
+		return existingIDs;
+	}
+
 	public static void main(String[] args) {
 		System.out.println(chars.length);
 	}
