@@ -1,5 +1,6 @@
 package com.gamsionworks.chris.storyboardworkshop.utility;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -138,6 +139,7 @@ public class IDTree {
 		 * @param id
 		 */
 		public IDTreeNode addID(List<IDPart> id) {
+			id = new ArrayList<IDPart>(id);
 			IDPart crnt = id.get(0);
 			IDTreeNode t = addNode(crnt);
 			id.remove(0);
@@ -292,49 +294,34 @@ public class IDTree {
 		Point p1 = new Point("p1", null, id1);
 		Point p2 = new Point("p2", null, id2);
 		IDTree t = new IDTree(p0);
-
-		IDTreeNode n = t.head;
-		System.out.println(n);
-		System.out.println(n.getChildren());
-		System.out.println(p0.getUID().getParts().get(0));
-		System.out.println(id0.new IDPart("abcd").equals(p0.getUID().getParts().get(0)));
-		n = n.getChild(id0.new IDPart("abcd"));
-		System.out.println(n);
-		n = n.getChild(id0.new IDPart("efgh"));
-		System.out.println(n);
-		n = n.getChild(id0.new IDPart("ijkl"));
-		System.out.println(n);
-		System.out.println(n.mat);
-		System.out.println(p0.getUID());
-		// System.out.println(t);
 		t.add(p1);
-		// System.out.println(t);
 		t.add(p2);
 
-		n = t.head;
-		System.out.println(n);
-		System.out.println(n.getChildren());
-		n = n.getChild(id0.new IDPart("abcd"));
-		System.out.println(n);
+		System.out.println(t);
+		IDTreeNode n = t.head.getChild(id0.new IDPart("abcd"));
+		System.out.println(n.isWord);
 		n = n.getChild(id0.new IDPart("efgh"));
 		System.out.println(n);
+		System.out.println(n.isWord);
 		n = n.getChild(id0.new IDPart("ijkl"));
 		System.out.println(n);
-		System.out.println(n.mat);
-		System.out.println(p0.getUID());
+		System.out.println(n.isWord);
+		n = n.getChild(id0.new IDPart("mnop"));
+		System.out.println(n);
+		System.out.println(n.isWord);
+		n = n.parent.parent.getChild(id0.new IDPart("qrst"));
+		System.out.println(n);
+		System.out.println(n.isWord);
+		ID rid = new ID(id0.toString());
+		System.out.println("BAN HAMMER");
+		t.remove(rid);
+		System.out.println(t);
+		System.out.println(t.hasID(new ID("abcdefghijkl", 4)));
+		System.out.println(t.hasID(new ID("abcdefghijklmnop", 4)));
 
-		// System.out.println(t);
-		// ID rid = new ID(id1.toString());
-		// System.out.println("BAN HAMMER");
-		// t.remove(rid);
-		// System.out.println(t);
-		// System.out.println(t.hasID(new ID("abcdefghijkl", 4)));
-
-		// IDTree t = initIDTree(id);
-		// t.addID(id2);
-		// System.out.println(t.getChildren());
-		// System.out.println(t);
-		// System.out.println(t.getChild(id.getParts().get(0)));
+		t.add(id2);
+		System.out.println(t.head.getChildren());
+		System.out.println(t);
 	}
 
 }

@@ -24,7 +24,6 @@ import com.gamsionworks.chris.storyboardworkshop.gui.app.PointComponent;
 import com.gamsionworks.chris.storyboardworkshop.storyboard.StoryBoard;
 import com.gamsionworks.chris.storyboardworkshop.storyboard.materials.Point;
 import com.gamsionworks.chris.storyboardworkshop.utility.ID;
-import com.gamsionworks.chris.storyboardworkshop.utility.IDFactory;
 
 public class StoryBoardPointCreation extends JFrame {
 
@@ -58,7 +57,7 @@ public class StoryBoardPointCreation extends JFrame {
 		JLabel idLabel = new JLabel("ID: ");
 		this.add(idLabel);
 		this.add(id);
-		id.setText(IDFactory.getUID().toString());
+		id.setText("auto");
 
 		JLabel nameLabel = new JLabel("Name: ");
 		this.add(nameLabel);
@@ -125,7 +124,9 @@ public class StoryBoardPointCreation extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				Point p = new Point(name.getText().trim(), description.getText().trim(),
-						id.getText().trim() == "" ? null : new ID(id.getText().trim()), capturedImgs);
+						(id.getText().trim() == "" || id.getText().trim().equalsIgnoreCase("auto")) ? null
+								: new ID(id.getText().trim()),
+						capturedImgs);
 				PointComponent pc = new PointComponent(p);
 				int a = pc.getWidth() / 2;
 				int b = pc.getHeight() / 2;

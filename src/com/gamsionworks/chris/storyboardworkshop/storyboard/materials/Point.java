@@ -42,7 +42,7 @@ public class Point implements AppMaterial {
 	public Point(String name, String description, ID uid) {
 		this.name = name == null ? String.format("Point# %d", this.getUID()) : name;
 		this.description = description == null ? String.format("Point# %d", this.getUID()) : description;
-		this.setUID((uid == null || uid.equals("")) ? IDFactory.getUID() : uid);
+		this.setUID((uid == null || uid.equals("")) ? IDFactory.getUID(this) : uid);
 	}
 
 	public Point(String name, String description, ID uid, List<Image> capturedImgs) {
@@ -91,9 +91,15 @@ public class Point implements AppMaterial {
 	public void setUID(ID UID) {
 		if (!UID.equals(this.id)) {
 			IDFactory.removeID(this.id);
-			IDFactory.addID(UID);
 			this.id = UID;
+			IDFactory.add(this);
 		}
+	}
+
+	@Override
+	public void setUID(String UID) {
+		ID newID = new ID(UID);
+		this.setUID(newID);
 	}
 
 	@Override
@@ -212,7 +218,6 @@ public class Point implements AppMaterial {
 					JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 			JLabel idLabel = new JLabel("ID: ");
 			idField.setText(Point.this.id.toString());
-			System.out.println(id);
 			this.add(idLabel);
 			this.add(idField);
 
@@ -434,13 +439,4 @@ public class Point implements AppMaterial {
 		thumbnail = i;
 	}
 
-	@Override
-	public void setUID(String UID) {
-		if (!UID.equals(this.id.toString().toLowerCase().trim())) {
-			ID newID = new ID(UID);
-			IDFactory.addID(newID);
-			IDFactory.removeID(this.id);
-			this.id = newID;
-		}
-	}
 }

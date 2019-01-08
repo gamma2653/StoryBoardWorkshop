@@ -1,13 +1,12 @@
 package com.gamsionworks.chris.storyboardworkshop.utility;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * @author Chris Immutable class containing various combinations of Strings.
+ * Immutable class containing various combinations of Strings.
  */
 public class ID {
 	private int partSize = 4;
@@ -67,7 +66,7 @@ public class ID {
 	}
 
 	public List<IDPart> getParts() {
-		return new LinkedList<IDPart>(this.parts);
+		return new ArrayList<IDPart>(this.parts);
 	}
 
 	@Override

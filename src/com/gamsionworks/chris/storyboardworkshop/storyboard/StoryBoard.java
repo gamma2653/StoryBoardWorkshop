@@ -101,21 +101,18 @@ public class StoryBoard {
 
 	public void makePoint() {
 		sbw.setActiveWindow(false);
-		;
 		new StoryBoardPointCreation(sbw, this);
 
 	}
 
 	public void makeSegment() {
 		sbw.setActiveWindow(false);
-		;
 		new StoryBoardSegmentCreation(sbw, this);
 
 	}
 
 	public void makeArc() {
 		sbw.setActiveWindow(false);
-		;
 		new StoryBoardArcCreation(sbw, this);
 
 	}
